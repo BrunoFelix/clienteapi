@@ -1,19 +1,20 @@
 package br.com.compasso.uol.cliente.model.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-public class Response {
+public class Response implements Serializable{
 	
 	private HttpStatus httpStatus;
 	
-	private String mensagem;
+	private String message;
 	
 	/**
 	 * Lista de erros
 	 */
-	private List<String> erros;
+	private List<ErrorObject> errors;
 	
 	/**
 	 * Objeto
@@ -36,19 +37,19 @@ public class Response {
 		this.httpStatus = httpStatus;
 	}
 
-	public String getMensagem() {
-		return mensagem;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
+	public void setMessage(String mensagem) {
+		this.message = mensagem;
 	}
 
-	public List<String> getErros() {
-		return erros;
+	public List<ErrorObject> getErrors() {
+		return errors;
 	}
 
-	public void setErros(List<String> erros) {
-		this.erros = erros;
+	public void setErrors(List<ErrorObject> errors) {
+		this.errors = errors;
 	} 
 }

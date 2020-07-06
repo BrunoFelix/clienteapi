@@ -4,7 +4,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +18,10 @@ import br.com.compasso.uol.cliente.model.response.Response;
 import br.com.compasso.uol.cliente.service.ClienteService;
 
 @RestController
-@RequestMapping(value="/cliente")
+@RequestMapping(value="/api/cliente")
 public class ClienteController {
 
-	@Autowired
+	@Autowired(required=true)
 	private ClienteService clienteService;
 	
 	@PostMapping("/add")

@@ -1,6 +1,7 @@
 package br.com.compasso.uol.cliente.service;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import br.com.compasso.uol.cliente.model.entity.Cliente;
 import br.com.compasso.uol.cliente.model.response.Response;
@@ -16,6 +17,5 @@ public interface ClienteService {
 	public ResponseEntity<Response> findById(Long id);
 	
 	public ResponseEntity<Response> findByNome(String nome);
-	
 	
 }

@@ -1,6 +1,8 @@
 package br.com.compasso.uol.cliente.model.entity;
 
-import java.util.Calendar;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,17 +15,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name="cliente")
-public class Cliente {
+public class Cliente implements Serializable {
 	
 	/**
 	 * 
@@ -35,23 +38,28 @@ public class Cliente {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "nome")
+	@Column(name = "nome", length=60)
 	@NotNull(message = "Campo nome não pode ser vazio!")
 	@Size(min = 10, max = 60, message = "Campo nome precisa ter entre 10 e 60 caracteres!")
+	@NotBlank
+	@NotEmpty
 	private String nome;
 	
-	@Column(name = "sexo")
+	@Column(name = "sexo", length=1)
 	@NotNull(message = "Campo sexo não pode ser vazio!")
 	@Size(min = 1, max = 1, message = "Campo sexo deve ser preencido como 'F' (Feminino) ou 'M' (Masculino)!")
+	@NotBlank
+	@NotEmpty
 	private String sexo;
 	
-	@Column(name = "dt_nascimento", columnDefinition = "date")
+	@Column(name = "dt_nascimento")
 	@NotNull(message = "Campo data de nascimento não pode estar vazio!")
-	@Temporal(TemporalType.DATE) 
+	@PastOrPresent(message = "Campo data de nascimento não pode ser maior que a data atual!")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone="GMT-3")
 	private Date dt_nascimento;
 	
-	@JsonInclude()
-	@Transient
+	@Column(name = "idade", columnDefinition = "int")
+	@NotNull(message = "Campo idade não pode estar vazio!") 
 	private Integer idade;
 	
 	@ManyToOne
@@ -91,11 +99,11 @@ public class Cliente {
 	}
 
 	public Integer getIdade() {
-		if (getDt_nascimento() != null) {
-			return calculaIdade(getDt_nascimento());
-		} else {
-			return idade;
-		}
+		return idade;
+	}
+	
+	public void setIdade(Integer idade) {
+		this.idade = idade;
 	}
 
 	public Cidade getCidade() {
@@ -104,26 +112,5 @@ public class Cliente {
 
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
-	}
-	
-	private static int calculaIdade(Date dt_nascimento) {
-
-	    Calendar calendarDataNascimento = Calendar.getInstance();  
-	    calendarDataNascimento.setTime(dt_nascimento); 
-	    Calendar hoje = Calendar.getInstance();  
-
-	    int idade = hoje.get(Calendar.YEAR) - calendarDataNascimento.get(Calendar.YEAR); 
-
-	    if (hoje.get(Calendar.MONTH) < calendarDataNascimento.get(Calendar.MONTH)) {
-	      idade--;  
-	    } 
-	    else 
-	    { 
-	        if (hoje.get(Calendar.MONTH) == calendarDataNascimento.get(Calendar.MONTH) && hoje.get(Calendar.DAY_OF_MONTH) < calendarDataNascimento.get(Calendar.DAY_OF_MONTH)) {
-	            idade--; 
-	        }
-	    }
-
-	    return idade;
 	}
 }
