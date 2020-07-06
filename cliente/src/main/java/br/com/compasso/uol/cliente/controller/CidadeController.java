@@ -1,5 +1,7 @@
 package br.com.compasso.uol.cliente.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +16,17 @@ import br.com.compasso.uol.cliente.model.response.Response;
 import br.com.compasso.uol.cliente.service.CidadeService;
 
 @RestController
-@RequestMapping(value="/cidade")
+@RequestMapping(value="/api/cidade")
 public class CidadeController {
 
 	@Autowired
 	private CidadeService cidadeService;
 	
 	@PostMapping("/add")
-	public ResponseEntity<Response> add(@RequestBody Cidade cidade){
+	public ResponseEntity<Response> add(@Valid @RequestBody Cidade cidade){
 		return cidadeService.add(cidade);
 	}
-	
-	
+
 	@GetMapping(value = "/estado/{estado}")
 	public ResponseEntity<Response> findByEstado(@PathVariable("estado") String estado){
 		return cidadeService.findByEstado(estado);
