@@ -3,13 +3,14 @@ package br.com.compasso.uol.cliente.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.compasso.uol.cliente.model.entity.Cidade;
-import br.com.compasso.uol.cliente.model.entity.Cliente;
 import br.com.compasso.uol.cliente.model.response.ErrorObject;
 import br.com.compasso.uol.cliente.model.response.Response;
 import br.com.compasso.uol.cliente.repository.CidadeRepository;
@@ -32,10 +33,10 @@ public class CidadeServiceImpl implements CidadeService {
 		// TODO Auto-generated method stub
 		limparVariaveis();
 		try {
-			//validacoes
 			List<Cidade> listaCidade = new ArrayList<Cidade>();
 			cidadeRep.findByNomeAndEstado(cidade.getNome(), cidade.getEstado()).forEach(listaCidade::add);
 			
+			//Caso já exista uma cidade com o mesmo nome e estado
 			if (listaCidade.size() > 0) {
 				this.httpStatus = HttpStatus.BAD_REQUEST;
 				this.mensagem = "Não foi possível inserir o registro!";
@@ -50,6 +51,8 @@ public class CidadeServiceImpl implements CidadeService {
 					this.data = retornoCidade;
 				}
 			}
+		} catch (ConstraintViolationException e) {
+			preencherValidationException(e);
 		} catch (Exception e) {
 			preencherException(e.getMessage());
 		}
@@ -67,6 +70,7 @@ public class CidadeServiceImpl implements CidadeService {
 		limparVariaveis();
 		
 		try {
+			//Caso o pârametro seja inválido
 			if (nome == null || nome.trim().isEmpty()) {
 				this.httpStatus = HttpStatus.BAD_REQUEST;
 				this.mensagem = "Não foi possível pesquisar o registro!";
@@ -75,16 +79,19 @@ public class CidadeServiceImpl implements CidadeService {
 				List<Cidade> listaCidade = new ArrayList<Cidade>();
 				cidadeRep.findByNome(nome).forEach(listaCidade::add);
 				
+				//Caso não exista nenhum registro
 				if (listaCidade.size() <= 0) {
 					this.httpStatus = HttpStatus.BAD_REQUEST;
 					this.mensagem = "Não foi possível pesquisar o registro!";
-					this.listaErro.add(new ErrorObject("Não existe registros no banco de dados com o parâmetro informado!", null, null));
+					this.listaErro.add(new ErrorObject("O nome informado não existe na base de dados!", null, null));
 				}else {
 					this.httpStatus = HttpStatus.OK;
 					this.data = listaCidade;
 					this.mensagem = listaCidade.size() + (listaCidade.size() == 1 ? " Registro" : "Registros");
 				}
 			}
+		} catch (ConstraintViolationException e) {
+			preencherValidationException(e);
 		}catch (Exception e) {
 			preencherException(e.getMessage());
 		}
@@ -102,6 +109,7 @@ public class CidadeServiceImpl implements CidadeService {
 		limparVariaveis();
 		
 		try {
+			//Caso o parâmetro seja inválido
 			if (estado == null || estado.trim().isEmpty()) {
 				this.httpStatus = HttpStatus.BAD_REQUEST;
 				this.mensagem = "Não foi possível pesquisar o registro!";
@@ -110,16 +118,19 @@ public class CidadeServiceImpl implements CidadeService {
 				List<Cidade> listaCidade = new ArrayList<Cidade>();
 				cidadeRep.findByEstado(estado).forEach(listaCidade::add);
 				
+				//Caso não exista nenhum registro
 				if (listaCidade.size() <= 0) {
 					this.httpStatus = HttpStatus.BAD_REQUEST;
 					this.mensagem = "Não foi possível pesquisar o registro!";
-					this.listaErro.add(new ErrorObject("Não existe registros no banco de dados com o parâmetro informado!", null, null));
+					this.listaErro.add(new ErrorObject("O estado informado não existe na base de dados!", null, null));
 				}else {
 					this.httpStatus = HttpStatus.OK;
 					this.data = listaCidade;
 					this.mensagem = listaCidade.size() + (listaCidade.size() == 1 ? " Registro" : "Registros");
 				}
 			}
+		} catch (ConstraintViolationException e) {
+			preencherValidationException(e);
 		}catch (Exception e) {
 			preencherException(e.getMessage());
 		}
@@ -131,6 +142,9 @@ public class CidadeServiceImpl implements CidadeService {
 		return new ResponseEntity<>(this.response, this.response.getHttpStatus());
 	}
 	
+	/**
+	 * Método para limpar variáveis antes de utilizá-las
+	 */
 	private void limparVariaveis() {
 		this.response = new Response();
 		this.listaErro = new ArrayList<ErrorObject>();
@@ -139,12 +153,26 @@ public class CidadeServiceImpl implements CidadeService {
 		this.data = null;
 	}
 	
+	/**
+	 * Método para padronizar exceções do Java
+	 */
 	public void preencherException(String erro) {
 		this.listaErro.clear();
 		this.listaErro.add(new ErrorObject(erro, null, null));
 		this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 		this.data = null;
 		mensagem = "Servidor não conseguiu processar a solicitação!";
+	}
+	
+	/**
+	 * Método para padronizar exceções de validações do JPA
+	 */
+	public void preencherValidationException(ConstraintViolationException e) {
+		this.listaErro.clear();
+		this.listaErro.add(new ErrorObject(e.getMessage(), null, null));
+		this.httpStatus = HttpStatus.BAD_REQUEST;
+		this.data = null;
+		mensagem = "Os seguintes campos precisam ser ajustados!";
 	}
 
 }
