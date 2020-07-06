@@ -16,9 +16,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name="cidade")
 public class Cidade implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -40,6 +38,9 @@ public class Cidade implements Serializable {
 	@NotEmpty
 	private String estado;
 
+	/**
+	 * Getters and Setters
+	 */
 	public Long getId() {
 		return id;
 	}

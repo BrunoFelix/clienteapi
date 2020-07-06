@@ -1,8 +1,6 @@
 package br.com.compasso.uol.cliente.model.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -28,9 +25,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Table(name="cliente")
 public class Cliente implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -55,7 +49,7 @@ public class Cliente implements Serializable {
 	@Column(name = "dt_nascimento")
 	@NotNull(message = "Campo data de nascimento não pode estar vazio!")
 	@PastOrPresent(message = "Campo data de nascimento não pode ser maior que a data atual!")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone="GMT-3")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone="America/Sao_Paulo")
 	private Date dt_nascimento;
 	
 	@Column(name = "idade", columnDefinition = "int")
@@ -66,6 +60,9 @@ public class Cliente implements Serializable {
 	@JoinColumn(name = "id_cidade", nullable = true, foreignKey=@ForeignKey(name="fk_cliente_cidade"))
 	private Cidade cidade;
 
+	/**
+	 * Getters and Setters
+	 */
 	public Long getId() {
 		return id;
 	}

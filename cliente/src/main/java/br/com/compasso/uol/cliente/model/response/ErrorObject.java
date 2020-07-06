@@ -2,7 +2,15 @@ package br.com.compasso.uol.cliente.model.response;
 
 import java.io.Serializable;
 
+/**
+ * Classe responsável pela formatação dos erros e validações
+ * @author Bruno
+ *
+ */
 public class ErrorObject implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	private final String message;
     private final String field;
     private final Object parameter;

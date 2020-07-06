@@ -14,6 +14,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import br.com.compasso.uol.cliente.model.response.ErrorObject;
 import br.com.compasso.uol.cliente.model.response.Response;
 
+/**
+ * Classe responsável tratar as exceções lançadas pelas validações do JPA
+ * @author Bruno
+ *
+ */
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 

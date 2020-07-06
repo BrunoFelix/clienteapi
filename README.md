@@ -27,9 +27,14 @@ O projeto foi criado e desenvolvido seguindo a estrutura descrita abaixo:
 │   └── main
 │       └── java
 │           ├── br.com.compasso.uol.cliente.controller
+│			├── br.com.compasso.uol.cliente.exception
 │           ├── br.com.compasso.uol.cliente.model
+│				└── br.com.compasso.uol.cliente.model.entity
+│				└── br.com.compasso.uol.cliente.model.response
 │           ├── br.com.compasso.uol.cliente.repository
 │           ├── br.com.compasso.uol.cliente.service
+│				└── br.com.compasso.uol.cliente.service.impl
+│			├── br.com.compasso.uol.cliente.util
 ├── src
 │   └── main
 │       └── resources
@@ -37,9 +42,7 @@ O projeto foi criado e desenvolvido seguindo a estrutura descrita abaixo:
 ├── src
 │   └── test
 │       └── java
-|           ├── br.com.compasso.uol.cliente.controller
-│           ├── br.com.compasso.uol.cliente.repository
-│           ├── br.com.compasso.uol.cliente.service
+│			├── br.com.compasso.uol.cliente
 ├── JRE System Library
 ├── Maven Dependencies
 ├── src
@@ -54,7 +57,7 @@ O projeto foi criado e desenvolvido seguindo a estrutura descrita abaixo:
 
 * 	[API]
 - `controller` - Pasta responsável pelo mapeamento e direcionamento das ações recebidas (request) pela camada da apresentação para os respectivos serviços da aplicação.
-- `model` - Pasta responsável pelo armazenamento de classes básicas e Enums;
+- `model` - Pasta responsável pelo armazenamento de classes básicas e de respostas (response);
 - `repository` - Pasta responsável pelo armazenamento de arquivos que realizam consultas na base de dados;
 - `service` - Pasta responsável pelo armazenamento dos arquivos que detalham os serviços da aplicação consumindo os arquivos as pasta repository;
 - `resources/application.properties` - Arquivo que contem as propriedades do sistema, como os dados de conexão do banco de dados.

@@ -5,10 +5,23 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Classe responsável por padronizar a resposta das requisições
+ * @author Bruno
+ *
+ */
 public class Response implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Status HTTP da resposta
+	 */
 	private HttpStatus httpStatus;
 	
+	/**
+	 * Mensagem
+	 */
 	private String message;
 	
 	/**
@@ -21,6 +34,9 @@ public class Response implements Serializable{
 	 */
 	private Object data;
 
+	/**
+	 * Getters and Setters
+	 */
 	public Object getData() {
 		return data;
 	}
