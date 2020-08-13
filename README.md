@@ -1,4 +1,4 @@
-# Teste Técnico Compasso Uol - Bruno Felix
+# Api Clientes - Bruno Felix
 Neste projeto será desenvolvido um pequeno sistema relacionado a clientes e suas cidades, onde será possível cadastrar, alterar, excluir e listar. Linguagem de programação Java 8 com Spring Boot e banco de dados MySQL.
 
 ## Pré-requisitos
@@ -66,4 +66,4 @@ O projeto foi criado e desenvolvido seguindo a estrutura descrita abaixo:
 
 
 ## Liçensa
-* 	Apache License 2.0. Visualizar arquivo de [LICENSE](https://github.com/BrunoFelix/TesteTecnicoCompassoUol/blob/master/LICENSE).
+* 	Apache License 2.0. Visualizar arquivo de [LICENSE](https://github.com/BrunoFelix/clienteapi/blob/master/LICENSE).
